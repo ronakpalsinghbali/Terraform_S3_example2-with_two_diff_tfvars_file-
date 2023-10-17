@@ -1,4 +1,4 @@
-name: "Terraform workflow for Plan and Apply"
+name: "Terraform workflow for Destroy"
 
 on:
   workflow_dispatch:
@@ -45,5 +45,5 @@ jobs:
         id: plan
         run: terraform plan -var-file="${{ inputs.tfvars_filename}}"
       
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve -var-file="${{ inputs.tfvars_filename}}"
