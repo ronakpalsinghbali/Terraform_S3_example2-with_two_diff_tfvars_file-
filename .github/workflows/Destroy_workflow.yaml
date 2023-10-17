@@ -10,6 +10,11 @@ on:
         options:
         - dev.tfvars
         - prod.tfvars
+      workspace_name:
+        description: "Enter the name of the workspace"
+        required: true
+        type: string
+
 
 jobs:
   terraform:
@@ -36,6 +41,9 @@ jobs:
         id: init
         run: terraform init
 
+      - name: Terraform Workspace change
+        id: workspce_change
+        run: terraform workspace new ${{ inputs.workspace_name}}
 
       - name: Terraform Workspace
         id: workspce
