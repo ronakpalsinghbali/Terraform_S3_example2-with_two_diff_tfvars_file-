@@ -24,7 +24,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_SESSION_TOKEN : ${{ secrets.AWS_SESSION_TOKEN }}
-      TF_WORKSPACE: ${{ inputs.workspace_name }}
+
 
     steps:
       - name: Checkout
@@ -37,17 +37,17 @@ jobs:
         id: fmt
         run: terraform fmt 
 
-      - name: Terraform Init
-        id: init
-        run: terraform init 
-      
       - name: Terraform Workspace change
         id: workspce_change
-        run: terraform workspace new ${{ env.TF_WORKSPACE}}
+        run: terraform workspace new ${{ inputs.workspace_name}}
 
       - name: Terraform Workspace
         id: workspce
         run: terraform workspace show
+
+      - name: Terraform Init
+        id: init
+        run: terraform init 
       
       - name: Terraform Plan
         id: plan
