@@ -41,9 +41,9 @@ jobs:
         id: init
         run: terraform init
 
-      - name: Terraform Workspace change
+      - name: Terraform Workspace cselect
         id: workspce_change
-        run: terraform workspace new ${{ inputs.workspace_name}}
+        run: terraform workspace select ${{ inputs.workspace_name}}
 
       - name: Terraform Workspace
         id: workspce
