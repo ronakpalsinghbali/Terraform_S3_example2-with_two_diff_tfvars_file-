@@ -36,19 +36,18 @@ jobs:
       - name: Terraform Format
         id: fmt
         run: terraform fmt 
-      
-      - name: Terraform Workspace
-        id: workspce_change
-        run: terraform workspace new ${{ env.TF_WORKSPACE}}
-
-      
-      - name: Terraform Workspace
-        id: workspce
-        run: terraform workspace show
 
       - name: Terraform Init
         id: init
         run: terraform init 
+      
+      - name: Terraform Workspace change
+        id: workspce_change
+        run: terraform workspace new ${{ env.TF_WORKSPACE}}
+
+      - name: Terraform Workspace
+        id: workspce
+        run: terraform workspace show
       
       - name: Terraform Plan
         id: plan
