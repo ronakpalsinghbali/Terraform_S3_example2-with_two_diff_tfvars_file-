@@ -1,0 +1,49 @@
+name: "Terraform workflow for Plan and Apply"
+
+on:
+  workflow_dispatch:
+    inputs:
+      tfvars_filename:
+        description: "Name of tfvar file"
+        required: true
+        type: choice
+        options:
+        - dev.tfvars
+        - prod.tfvars
+
+
+jobs:
+  terraform:
+    name: "Terraform Apply"
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN : ${{ secrets.AWS_SESSION_TOKEN }}
+      TF_WORKSPACE: project3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+    
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt 
+      
+      - name: Terraform Workspace
+        id: workspce
+        run: terraform workspace show
+
+      - name: Terraform Init
+        id: init
+        run: terraform init 
+      
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -var-file="${{ inputs.tfvars_filename}}"
+      
+      - name: Terraform Apply
+        run: terraform apply -auto-approve  -var-file="${{ inputs.tfvars_filename}}"
